@@ -1,0 +1,19 @@
+{
+  "name": "@kxghnpm/kx-iqcaptcha",
+  "version": "1.0.0",
+  "description": "Package for IQCaptcha creation",
+  "main": "index.js",
+  "dependencies": {
+    "canvas": "^2.5.0"
+  },
+  "keywords": [
+    "captcha",
+    "iqcaptcha"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kxgh/kx-iqcaptcha.git"
+  },
+  "author": "github.com/kxgh",
+  "license": "ISC"
+}

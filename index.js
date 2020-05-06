@@ -30,7 +30,7 @@ class CaptchaMgr {
         this._capacityCutbackInterval = opts.capacityCutbackInterval || 1000 * 60 * 60;
         this._capacityCutbackMinPercentage = opts.capacityCutbackMinPercentage || .9;
         this._forks = !!opts.forks;
-        this._logger = opts.logger || {debug: f => f, log: f => f, warn: f => f, error: f => f};
+        this._logger = opts.logger || {debug: f => f, log: f => f, warn: f => f, error: f => f, info: f => f};
         this._pendingCaptchas = 0;
         this._readyQue = [];
         this._awaitingQue = [];
@@ -126,18 +126,18 @@ class CaptchaMgr {
      * Stops all ongoing intervals
      */
     terminate() {
+        this._logger.debug('Stopping loops...');
         this._terminate = true;
         this._ticking && this._ticking.close();
         this._cutback && this._cutback.close();
         this._providerJob && this._providerJob.kill();
-        this._logger.info('Stopping loops...');
     }
 }
 
-const _onCreated = (ctx, res) => {
-    if (ctx._awaitingQue.length)
-        ctx._awaitingQue.shift()(res);
-    else ctx._readyQue.push(res);
+const _onCreated = (captchaMgr, res) => {
+    if (captchaMgr._awaitingQue.length)
+        captchaMgr._awaitingQue.shift()(res);
+    else captchaMgr._readyQue.push(res);
 };
 
 module.exports = {CaptchaMgr, generator, CaptchaAuthr: authr};
